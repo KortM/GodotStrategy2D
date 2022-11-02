@@ -12,6 +12,7 @@ func _input(event):
 	velocity = Vector2()
 	if Input.is_action_pressed("click"):
 		target = get_global_mouse_position()
+		look_at(get_global_mouse_position())
 	if event.is_action_pressed("fire"):
 		emit_signal("fire",Bullet, rotation, $cell.global_position)
 
@@ -20,7 +21,6 @@ func _physics_process(delta):
 	if position.distance_to(target) > 50:
 		#velocity = velocity.normalized() * speed
 		velocity = move_and_slide(velocity)
-	look_at(get_global_mouse_position())
 	detect_enemy()
 	
 func detect_enemy():
@@ -37,7 +37,7 @@ func detect_enemy():
 				
 func _on_unit_foot_fire(bullet, direction, location, target):
 	if is_fire:
-		var b = Bullet.instance()
+		var b = bullet.instance()
 		var main = get_tree().current_scene
 		get_parent().add_child(b)
 		b.rotation = direction
